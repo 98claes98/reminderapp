@@ -29,24 +29,21 @@ public class UserController {
             if (userRepository.existsByUsername(user.getUsername())) {
                 return new ResponseEntity(HttpStatus.CONFLICT);
             } else {
-                User u = new User(user.getUsername(), user.getPassword());
-                userRepository.save(u);
+                userRepository.save(user);
                 return new ResponseEntity(HttpStatus.OK);
             }
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
-    @PutMapping("/users/{id}")
-    public ResponseEntity post(@PathVariable("id") long id, @RequestBody User user) {
+
+    @PutMapping("/users")
+    public ResponseEntity put(@RequestBody User user) {
         try {
-            if (!userRepository.existsById(id)) {
+            if (!userRepository.existsById(user.getId())) {
                 return new ResponseEntity(HttpStatus.NOT_FOUND);
             } else {
-                User u = userRepository.getOne(id);
-                u.setPassword(user.getPassword());
-                userRepository.save(u);
+                userRepository.save(user);
                 return new ResponseEntity(HttpStatus.OK);
             }
         } catch (Exception e) {

@@ -26,6 +26,10 @@ public class User {
         this.username = username;
         this.password = password;
     }
+    
+    public long getId(){
+        return this.id;
+    }
 
     public String getUsername() {
         return this.username;
