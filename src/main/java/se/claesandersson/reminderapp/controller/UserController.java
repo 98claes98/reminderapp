@@ -21,13 +21,13 @@ import se.claesandersson.reminderapp.security.AuthenticationSuccess;
 @CrossOrigin
 @RestController
 public class UserController extends AbstractController {
-    
+
     @Autowired
     UserRepository userRepository;
-    
+
     @Autowired
     ReminderRepository reminderRepository;
-    
+
     @PostMapping("/users/authenticate")
     public ResponseEntity authenticate(@RequestBody User user) {
         try {
@@ -41,11 +41,13 @@ public class UserController extends AbstractController {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @PostMapping("/users")
     public ResponseEntity post(@RequestBody User user) {
         try {
             if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+                return new ResponseEntity(HttpStatus.CONFLICT);
+            } else if (userRepository.findByEmail(user.getEmail()).isPresent()) {
                 return new ResponseEntity(HttpStatus.CONFLICT);
             } else {
                 userRepository.save(user);
@@ -55,7 +57,7 @@ public class UserController extends AbstractController {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @PutMapping("/users")
     public ResponseEntity put(@RequestBody User user, @RequestParam String key) {
         try {
@@ -74,7 +76,7 @@ public class UserController extends AbstractController {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @DeleteMapping("/users/{id}")
     public ResponseEntity delete(@RequestBody User user, @RequestParam String key) {
         try {
