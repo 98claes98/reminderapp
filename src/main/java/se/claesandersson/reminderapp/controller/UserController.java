@@ -3,6 +3,7 @@
  */
 package se.claesandersson.reminderapp.controller;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,21 @@ public class UserController extends AbstractController {
             if (userRepository.existsByEmail(user.getEmail())) {
                 return new ResponseEntity(HttpStatus.CONFLICT);
             } else {
+                return new ResponseEntity(HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @PostMapping("/users/recover")
+    public ResponseEntity recover(@RequestBody User user) {
+        try {
+            Optional<User> u = userRepository.findByEmail(user.getEmail());
+            if (!u.isPresent()) {
+                return new ResponseEntity(HttpStatus.NOT_FOUND);
+            } else {
+                //Send email
                 return new ResponseEntity(HttpStatus.OK);
             }
         } catch (Exception e) {

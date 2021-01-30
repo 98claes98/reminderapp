@@ -20,8 +20,19 @@ Endpoint: /users/check
 }
 Returns in body: Nothing
 Status codes: 
-200 OK if username doesn't exist
-409 Conflict if username already exists
+200 OK if email doesn't exist
+409 Conflict if email already exists
+500 Internal Server Error for other errors
+
+Endpoint: /users/recover	
+--Requestbody--
+{
+	"email": "tom@hotmail.com"
+}
+Returns in body: Nothing
+Status codes: 
+200 OK if recovery email was sent
+404 Not Found if email doesn't exist
 500 Internal Server Error for other errors
 
 Endpoint: /users/authenticate		
