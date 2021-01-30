@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import se.claesandersson.reminderapp.domain.User;
+import se.claesandersson.reminderapp.mail.SendMail;
 import se.claesandersson.reminderapp.repository.ReminderRepository;
 import se.claesandersson.reminderapp.repository.UserRepository;
 import se.claesandersson.reminderapp.security.AuthenticationSuccess;
@@ -41,7 +42,7 @@ public class UserController extends AbstractController {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @PostMapping("/users/recover")
     public ResponseEntity recover(@RequestBody User user) {
         try {
@@ -49,7 +50,10 @@ public class UserController extends AbstractController {
             if (!u.isPresent()) {
                 return new ResponseEntity(HttpStatus.NOT_FOUND);
             } else {
-                //Send email
+                Runnable r = () -> {
+                    SendMail.sendMail(u.get().getEmail(), "Account recovery", "Your account credentials:\r\nEmail: " + u.get().getEmail() + "\r\nPassword: " + u.get().getPassword());
+                };
+                new Thread(r).start();
                 return new ResponseEntity(HttpStatus.OK);
             }
         } catch (Exception e) {
