@@ -13,10 +13,21 @@ Status codes:
 
 @POST
 
+Endpoint: /users/check	
+--Requestbody--
+{
+	"email": "tom@hotmail.com"
+}
+Returns in body: Nothing
+Status codes: 
+200 OK if username doesn't exist
+409 Conflict if username already exists
+500 Internal Server Error for other errors
+
 Endpoint: /users/authenticate		
 --Requestbody--
 {
-	"username": "Tom",
+	"email": "Tom@hotmail.com",
 	"password": "abc123"
 }
 Returns in body: userId & key
@@ -46,8 +57,8 @@ Status codes:
 Endpoint: /users		
 --Requestbody--
 {
-	"username": "Tom",
-	"password": "abc123"
+	"password": "abc123",
+        "email": "tom@hotmail.com"
 }
 Returns in body: Nothing
 Status codes: 
@@ -79,8 +90,8 @@ Endpoint: /users?key=
 --Requestbody--
 {
 	"id": "4",
-	"username": "Tom Walmart",
-	"password": "abc12345"
+	"password": "abc12345",
+        "email": "tom33@hotmail.com"
 }
 Returns in body: Nothing
 Status codes: 

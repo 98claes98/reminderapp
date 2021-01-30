@@ -21,8 +21,8 @@ public class AccessManager {
     private final SecureRandom secureRandom = new SecureRandom();
     private final Base64.Encoder base64Encoder = Base64.getUrlEncoder();
 
-    public AuthenticationSuccess validateUser(String username, String password) {
-        Optional<User> user = userRepository.findByUsername(username);
+    public AuthenticationSuccess validateUser(String email, String password) {
+        Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent()) {
             User u = user.get();
             if (u.getPassword().equals(password)) {

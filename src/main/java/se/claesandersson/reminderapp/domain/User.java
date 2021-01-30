@@ -17,30 +17,31 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String username;
+    private String email;
     private String password;
     private String apiKey;
     private Timestamp lastRequest;
-    private String email;
 
     public User() {
     }
 
-    public User(String username, String password) {
-        this.username = username;
+    public User(String email, String password, String apiKey, Timestamp lastRequest) {
+        this.email = email;
         this.password = password;
+        this.apiKey = apiKey;
+        this.lastRequest = lastRequest;
     }
     
     public long getId(){
         return this.id;
     }
 
-    public String getUsername() {
-        return this.username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -65,13 +66,5 @@ public class User {
 
     public void setLastRequest(Timestamp lastRequest) {
         this.lastRequest = lastRequest;
-    }
-    
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

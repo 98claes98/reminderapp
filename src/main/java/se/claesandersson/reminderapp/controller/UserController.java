@@ -28,10 +28,23 @@ public class UserController extends AbstractController {
     @Autowired
     ReminderRepository reminderRepository;
 
+    @PostMapping("/users/check")
+    public ResponseEntity checkEmail(@RequestBody User user) {
+        try {
+            if (userRepository.existsByEmail(user.getEmail())) {
+                return new ResponseEntity(HttpStatus.CONFLICT);
+            } else {
+                return new ResponseEntity(HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/users/authenticate")
     public ResponseEntity authenticate(@RequestBody User user) {
         try {
-            AuthenticationSuccess auth = accessManager.validateUser(user.getUsername(), user.getPassword());
+            AuthenticationSuccess auth = accessManager.validateUser(user.getEmail(), user.getPassword());
             if (auth == null) {
                 return new ResponseEntity(HttpStatus.UNAUTHORIZED);
             } else {
@@ -45,9 +58,7 @@ public class UserController extends AbstractController {
     @PostMapping("/users")
     public ResponseEntity post(@RequestBody User user) {
         try {
-            if (userRepository.findByUsername(user.getUsername()).isPresent()) {
-                return new ResponseEntity(HttpStatus.CONFLICT);
-            } else if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            if (userRepository.findByEmail(user.getEmail()).isPresent()) {
                 return new ResponseEntity(HttpStatus.CONFLICT);
             } else {
                 userRepository.save(user);
@@ -87,7 +98,7 @@ public class UserController extends AbstractController {
                 if (u.getId() != user.getId()) {
                     return new ResponseEntity(HttpStatus.UNAUTHORIZED);
                 } else {
-                    if (accessManager.validateUser(user.getUsername(), user.getPassword()) == null) {
+                    if (accessManager.validateUser(user.getEmail(), user.getPassword()) == null) {
                         return new ResponseEntity(HttpStatus.UNAUTHORIZED);
                     } else {
                         reminderRepository.deleteAllByUserId(user.getId());
