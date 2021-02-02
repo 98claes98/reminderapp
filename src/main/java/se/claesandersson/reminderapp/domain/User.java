@@ -16,7 +16,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String email;
     private String password;
     private String apiKey;
@@ -32,7 +32,7 @@ public class User {
         this.lastRequest = lastRequest;
     }
     
-    public long getId(){
+    public Long getId(){
         return this.id;
     }
 

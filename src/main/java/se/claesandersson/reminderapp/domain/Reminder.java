@@ -17,18 +17,18 @@ public class Reminder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String title;
     private String description;
     private LocalDateTime datetime;
-    private boolean finished;
+    private Boolean finished;
     @Column(name = "user_id")
-    private long userId;
+    private Long userId;
 
     public Reminder() {
     }
 
-    public Reminder(String title, String description, LocalDateTime datetime, boolean finished, long userId) {
+    public Reminder(String title, String description, LocalDateTime datetime, Boolean finished, Long userId) {
         this.title = title;
         this.description = description;
         this.datetime = datetime;
@@ -36,7 +36,7 @@ public class Reminder {
         this.userId = userId;
     }
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
@@ -64,19 +64,19 @@ public class Reminder {
         this.datetime = datetime;
     }
 
-    public boolean getFinished() {
+    public Boolean getFinished() {
         return this.finished;
     }
 
-    public void setFinished(boolean finished) {
+    public void setFinished(Boolean finished) {
         this.finished = finished;
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return this.userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 }

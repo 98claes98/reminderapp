@@ -1,13 +1,16 @@
 @GET
 
-Endpoint: /reminders/userId?key=		
+Endpoint: /reminders?key=
+--Requestbody--
+{
+	"id": "1"
+}
 Returns in body: list of reminders for a user
 Status codes: 
 200 OK if list with reminders isn't empty
 204 No Content if list if reminders is empty
-400 Bad Request if key parameter is missing
+400 Bad Request if body or key isn't valid
 401 Unauthorized if you don't have access to this request
-405 Method not allowed if you use wrong http method on this endpoint
 500 Internal Server Error for other errors
 
 
@@ -20,8 +23,9 @@ Endpoint: /users/check
 }
 Returns in body: Nothing
 Status codes: 
-200 OK if email doesn't exist
-409 Conflict if email already exists
+200 OK if email isn't taken
+400 Bad Request if body isn't valid
+409 Conflict if email is taken
 500 Internal Server Error for other errors
 
 Endpoint: /users/recover	
@@ -32,6 +36,7 @@ Endpoint: /users/recover
 Returns in body: Nothing
 Status codes: 
 200 OK if recovery email was sent
+400 Bad Request if body isn't valid
 404 Not Found if email doesn't exist
 500 Internal Server Error for other errors
 
@@ -44,6 +49,7 @@ Endpoint: /users/authenticate
 Returns in body: userId & key
 Status codes: 
 200 OK if user was authenticated
+400 Bad Request if body isn't valid
 401 Unauthorized if credentials wasn't correct
 500 Internal Server Error for other errors
 
@@ -55,12 +61,12 @@ Endpoint: /reminders?key=
 	"description": "Vanilla coffee",
 	"datetime": "2021-06-01T09:00:00",
 	"finished": "false",
-	"userId": "4"
+	"userId": "10"
 }
 Returns in body: Nothing
 Status codes: 
 200 OK if reminder was added
-400 Bad Request if key parameter is missing
+400 Bad Request if body or key isn't valid
 401 Unauthorized if you don't have access to this request
 500 Internal Server Error for other errors	
 
@@ -68,12 +74,13 @@ Status codes:
 Endpoint: /users		
 --Requestbody--
 {
-	"password": "abc123",
-        "email": "tom@hotmail.com"
+	"email": "tom@hotmail.com",
+	"password": "abc123"
 }
 Returns in body: Nothing
 Status codes: 
 200 OK if user was added
+400 Bad Request if body isn't valid
 409 Conflict if username already exists
 500 Internal Server Error for other errors
 
@@ -90,26 +97,26 @@ Endpoint: /reminders?key=
 Returns in body: Nothing
 Status codes: 
 200 OK if reminder was added
-400 Bad Request if key parameter is missing
+400 Bad Request if body or key isn't valid
 401 Unauthorized if you don't have access to this request
 500 Internal Server Error for other errors	
 
 
 @PUT
 
-Endpoint: /users?key=		
+Endpoint: /users		
 --Requestbody--
 {
-	"id": "4",
-	"password": "abc12345",
-        "email": "tom33@hotmail.com"
+	"id": "14",
+    "email": "tom44@hotmail.com",
+	"password": "123123123123",
+	"apiKey": "your key"
 }
 Returns in body: Nothing
 Status codes: 
 200 OK if user was updated
-400 Bad Request if key parameter is missing
+400 Bad Request if body isn't valid
 401 Unauthorized if you don't have access to this request
-404 Not Found if user with id doesn't exist
 500 Internal Server Error for other errors
 
 
@@ -126,7 +133,7 @@ Endpoint: /reminders?key=
 Returns in body: Nothing
 Status codes: 
 200 OK if reminder was updated
-400 Bad Request if key parameter is missing
+400 Bad Request if body or key isn't valid
 401 Unauthorized if you don't have access to this request
 404 Not Found if reminder with id doesn't exist
 500 Internal Server Error for other errors
@@ -134,21 +141,28 @@ Status codes:
 
 @DELETE
 
-Endpoint: /users/id?key=
+Endpoint: /users
+--Requestbody--
+{
+	"id": "1",
+	"apiKey": "your key"
+}
 Returns in body: Nothing
 Status codes: 
 200 OK if user was deleted
-400 Bad Request if key parameter is missing
+400 Bad Request if parameters are missing or invalid
 401 Unauthorized if you don't have access to this request
-404 Not Found if user doesn't exist
 500 Internal Server Error for other errors
 
 
-Endpoint: /reminders/id?key=	
+Endpoint: /reminders?key=
+{
+	"id": "1"
+}
 Returns in body: Nothing
 Status codes: 
 200 OK if reminder was deleted
-400 Bad Request if key parameter is missing
+400 Bad Request if body or key isn't valid
 401 Unauthorized if you don't have access to this request
 404 Not Found if reminder doesn't exist
 500 Internal Server Error for other errors
