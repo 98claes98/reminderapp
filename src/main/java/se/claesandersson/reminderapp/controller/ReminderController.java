@@ -8,13 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import se.claesandersson.reminderapp.domain.Reminder;
-import se.claesandersson.reminderapp.domain.User;
 import se.claesandersson.reminderapp.service.ReminderService;
 
 @CrossOrigin
@@ -24,10 +24,10 @@ public class ReminderController {
     @Autowired
     private ReminderService reminderService;
 
-    @GetMapping("/reminders")
-    public ResponseEntity getByUserId(@RequestBody User user, @RequestParam String key) {
+    @GetMapping("/reminders/{userid}")
+    public ResponseEntity getByUserId(@PathVariable long userid, @RequestParam String key) {
         
-        return reminderService.getRemindersByUserId(user, key);
+        return reminderService.getRemindersByUserId(userid, key);
     }
 
     @PostMapping("/reminders")
@@ -42,9 +42,9 @@ public class ReminderController {
         return reminderService.editReminder(reminder, key);
     }
 
-    @DeleteMapping("/reminders")
-    public ResponseEntity delete(@RequestBody Reminder reminder, @RequestParam String key) {
+    @DeleteMapping("/reminders/{id}")
+    public ResponseEntity delete(@PathVariable long id, @RequestParam String key) {
         
-        return reminderService.deleteReminder(reminder, key);
+        return reminderService.deleteReminder(id, key);
     }
 }

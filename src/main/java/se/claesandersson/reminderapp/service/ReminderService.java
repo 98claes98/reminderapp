@@ -19,11 +19,9 @@ public class ReminderService extends BaseService {
     @Autowired
     private ReminderRepository reminderRepository;
 
-    public ResponseEntity getRemindersByUserId(User user, String key) {
+    public ResponseEntity getRemindersByUserId(long userId, String key) {
         User u = accessManager.validateKey(key);
-        if (user.getId() == null) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        } else if (u == null || !u.getId().equals(user.getId())) {
+        if (u == null || !u.getId().equals(userId)) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         } else {
             List<Reminder> reminders = reminderRepository.findAllByUserId(u.getId());
@@ -84,18 +82,18 @@ public class ReminderService extends BaseService {
         }
     }
 
-    public ResponseEntity deleteReminder(Reminder reminder, String key) {
+    public ResponseEntity deleteReminder(long id, String key) {
         User u = accessManager.validateKey(key);
-        Optional<Reminder> r = reminderRepository.findById(reminder.getId());
+        Optional<Reminder> r = reminderRepository.findById(id);
         if (!r.isPresent()) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else if (u == null || !u.getId().equals(r.get().getUserId())) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         } else {
-            if (!reminderRepository.existsById(reminder.getId())) {
+            if (!reminderRepository.existsById(id)) {
                 return new ResponseEntity(HttpStatus.NOT_FOUND);
             } else {
-                reminderRepository.deleteById(reminder.getId());
+                reminderRepository.deleteById(id);
                 return new ResponseEntity(HttpStatus.OK);
 
             }

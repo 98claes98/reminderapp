@@ -74,11 +74,8 @@ public class UserService extends BaseService {
         }
     }
 
-    public ResponseEntity editUser(User user) {
-        if (user.getApiKey() == null || user.getId() == null) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-        User u = accessManager.validateKey(user.getApiKey());
+    public ResponseEntity editUser(User user, String key) {
+        User u = accessManager.validateKey(key);
         if (u == null || !u.getId().equals(user.getId())) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         } else {
@@ -101,12 +98,9 @@ public class UserService extends BaseService {
         }
     }
 
-    public ResponseEntity deleteUser(User user) {
-        if (user.getApiKey() == null || user.getId() == null) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-        User u = accessManager.validateKey(user.getApiKey());
-        if (u == null || !u.getId().equals(user.getId())) {
+    public ResponseEntity deleteUser(long id, String key) {
+        User u = accessManager.validateKey(key);
+        if (u == null || !u.getId().equals(id)) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         } else {
             reminderRepository.deleteAllByUserId(u.getId());

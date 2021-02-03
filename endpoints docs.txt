@@ -1,15 +1,11 @@
 @GET
 
-Endpoint: /reminders?key=
---Requestbody--
-{
-	"id": "1"
-}
+Endpoint: /reminders/{userId}?key=
 Returns in body: list of reminders for a user
 Status codes: 
 200 OK if list with reminders isn't empty
 204 No Content if list if reminders is empty
-400 Bad Request if body or key isn't valid
+400 Bad Request if params isn't valid
 401 Unauthorized if you don't have access to this request
 500 Internal Server Error for other errors
 
@@ -104,13 +100,12 @@ Status codes:
 
 @PUT
 
-Endpoint: /users		
+Endpoint: /users?key		
 --Requestbody--
 {
 	"id": "14",
     "email": "tom44@hotmail.com",
-	"password": "123123123123",
-	"apiKey": "your key"
+	"password": "123123123123"
 }
 Returns in body: Nothing
 Status codes: 
@@ -141,12 +136,7 @@ Status codes:
 
 @DELETE
 
-Endpoint: /users
---Requestbody--
-{
-	"id": "1",
-	"apiKey": "your key"
-}
+Endpoint: /users/{id}?key
 Returns in body: Nothing
 Status codes: 
 200 OK if user was deleted
@@ -155,14 +145,11 @@ Status codes:
 500 Internal Server Error for other errors
 
 
-Endpoint: /reminders?key=
-{
-	"id": "1"
-}
+Endpoint: /reminders/{id}?key=
 Returns in body: Nothing
 Status codes: 
 200 OK if reminder was deleted
-400 Bad Request if body or key isn't valid
+400 Bad Request if params isn't valid
 401 Unauthorized if you don't have access to this request
 404 Not Found if reminder doesn't exist
 500 Internal Server Error for other errors

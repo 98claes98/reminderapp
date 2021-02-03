@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import se.claesandersson.reminderapp.domain.User;
 import se.claesandersson.reminderapp.service.UserService;
@@ -46,14 +48,14 @@ public class UserController {
     }
 
     @PutMapping("/users")
-    public ResponseEntity edit(@RequestBody User user) {
+    public ResponseEntity edit(@RequestBody User user, @RequestParam String key) {
         
-        return userService.editUser(user);
+        return userService.editUser(user, key);
     }
 
-    @DeleteMapping("/users")
-    public ResponseEntity delete(@RequestBody User user) {
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity delete(@PathVariable long id, @RequestParam String key) {
         
-        return userService.deleteUser(user);
+        return userService.deleteUser(id, key);
     }
 }
