@@ -24,7 +24,7 @@ public class ReminderService extends BaseService {
         if (u == null || !u.getId().equals(userId)) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         } else {
-            List<Reminder> reminders = reminderRepository.findAllByUserId(u.getId());
+            List<Reminder> reminders = reminderRepository.findAllByUserIdOrderByDatetimeAsc(u.getId());
             if (reminders.isEmpty()) {
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             } else {

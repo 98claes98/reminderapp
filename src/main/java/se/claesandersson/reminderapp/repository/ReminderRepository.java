@@ -11,6 +11,6 @@ import se.claesandersson.reminderapp.domain.Reminder;
 @Transactional
 public interface ReminderRepository extends JpaRepository<Reminder, Long> {
 
-    List<Reminder> findAllByUserId(long userId);
+    List<Reminder> findAllByUserIdOrderByDatetimeAsc(long userId);
     void deleteAllByUserId(long userId);
 }
