@@ -65,9 +65,9 @@ public class ReminderService extends BaseService {
                 }
                 if (reminder.getDescription() != null) {
                     if (reminder.getDescription().length() > 100) {
-                        r.get().setDescription(reminder.getDescription());
-                    } else {
                         return new ResponseEntity(HttpStatus.BAD_REQUEST);
+                    } else {
+                        r.get().setDescription(reminder.getDescription());
                     }
                 }
                 if (reminder.getDatetime() != null) {
